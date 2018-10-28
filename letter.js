@@ -8,11 +8,11 @@ class Letter {
     showLetter() {
         console.log(this.str, this.match);
         if (this.match) {
-            console.log(this.str);
+            //console.log(this.str);
             return this.str;
         } else {
-            console.log(" _ ");
-            return " _ ";
+            //console.log(" __ ");
+            return " __ ";
         }
     }
     // function to take character as an argument and check it against the underlying character
@@ -30,5 +30,5 @@ module.exports = Letter;
 // testing
 /* const a = new Letter("a");
 console.log(a.str, a.match);
-a.guessLetter("b");
+//a.guessLetter("b");
 a.showLetter(); */
