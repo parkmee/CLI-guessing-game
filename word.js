@@ -7,7 +7,7 @@ class Word {
         this.wordArr = []; // empty array to hold letters of word
         this.createWord(word); // call function to populate wordArr
     }
-    createWord(word) { // function to populate wordArr
+    createWord(word) { // function to populate wordArr representing new Letter objects
         for(let i in word) {
             const char = word.charAt(i);
             const newLetter = new letter(char.toLowerCase());
@@ -15,18 +15,22 @@ class Word {
         }
         console.log(this.wordArr);
     }
-    showWord() {
+    showWord() { // run showLetter function for each wordArr character to display as letters or blanks
         let wordView = [];
-        for(let i in this.wordArr) {
-            wordView.push(this.wordArr[i].showLetter());
+        for(let i in this.wordArr) { // for every letter in word
+            wordView.push(this.wordArr[i].showLetter()); // run showLetter function to display as letter or blank
         }
-        console.log(wordView.join(" "));
+        console.log(wordView.join(" ")); // display letters or blanks to command line
+    }
+    guessWord(userGuess) { // function that takes character as an argument and calls the guess function on each letter object
+        for(let i in this.wordArr) {
+            console.log(this.wordArr[i].str);
+            this.wordArr[i].guessLetter(userGuess);
+        }
     }
 }
-// array of new Letter objects representing letters of the underlying word
-// function that returns a string representing the word. calls function on the letter of each object
-// function that takes character as an argument and calls the guess function on each letter object
 
 // testing
-const newWord = new Word("cat");
-newWord.showWord();
+/* const newWord = new Word("cat");
+newWord.guessWord("a");
+newWord.showWord(); */
