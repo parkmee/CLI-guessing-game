@@ -39,15 +39,20 @@ class RandomWord {
 let string = "";
 let guesses = 0;
 let matchedLetters = 0;
+let lettersUsed = [];
 
 // run to start game from beginning
 function init() {
     // selects new random word for guessing
     const randomWord = new RandomWord();
 
+    // reset values for global variables
     string = "";
     guesses = 9;
     matchedLetters = 0;
+    lettersUsed = [];
+
+    // prompt user to start game
     inquirer.prompt([
         {
             type: "confirm",
@@ -57,60 +62,68 @@ function init() {
     ]).then(res => {
         if (res.playGame) {
             //console.log(word.wordArr);
-            word.showWord();
-            guessALetter();
+            word.showWord(); // show blanks equal to the number of letters in word
+            guessALetter(); // run guessing function
         } else {
             console.log("Good bye!");
         }
     });
 }
+
+// function for guessing letters of word
 const guessALetter = () => {
     const [...w] = word.wordArr;
-    let letter = "";
+    let letter = ""; // local variable to store user's guess
     if (guesses > 0) {
-        inquirer.prompt([
+        inquirer.prompt([ // prompt user for letter
             {
                 message: "Guess a letter\n",
                 name: "letterGuess"
             }
         ]).then(res => {
-            letter = res.letterGuess.toLowerCase();
+            letter = res.letterGuess.toLowerCase(); // store letter
 
-            if (letter >= "a" && letter <= "z") {
-                word.guessWord(letter);
-                word.showWord();
-                string = "";
-                for (i in w) {
-                    if (w[i].match) {
-                        string += w[i].str;
+            if (letter >= "a" && letter <= "z") { // make sure selected key is a letter
+                lettersUsed.push(letter); // store used letters in array
+                word.guessWord(letter); // run guessWord function to mark any correctly guessed letters
+                word.showWord(); // update guessed letters on terminal
+                string = ""; // reset string to empty
+                for (i in w) { // for each letter in the word
+                    if (w[i].match) { // if the letter is matched
+                        string += w[i].str; // concatenate value to string
                     }
                 }
+                console.log(`\nLetters used: ${lettersUsed.join(" ")}\n`); // display letters used
                 /* console.log(string);
                 console.log(selectedWord);
                 console.log(string.length); */
+            } else {
+                console.log("Guess one letter"); // error message if value other than a - z is selected
             }
 
             //console.log(`matched letters: ${matchedLetters}`);
 
+            // if string length matches number of matched letters, decrement guesses - indicates no additional letters were guessed in this turn
             if (string.length === matchedLetters) {
                 guesses--;
                 console.log(`You have ${guesses} guess(es) left`);
             } else {
-                matchedLetters = string.length;
+                matchedLetters = string.length; // otherwise, update number of matched letters to string length
             }
 
+            // player loses if guesses run out
             if (guesses === 0) {
                 console.log(`You lose! The word was ${selectedWord}: ${definition}`);
                 init();
             }
 
+            // if concatenated string of guessed letters equals the selected random word, player wins
             if (string === selectedWord) {
                 console.log(`You win! The word was ${selectedWord}: ${definition}`);
                 init();
             } else {
-                guessALetter();
+                guessALetter(); // otherwise, prompt player for another guess
             }
-
         });
     }
 }
