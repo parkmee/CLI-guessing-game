@@ -30,6 +30,9 @@ class Word {
     }
 }
 
+// exports class
+module.exports = Word;
+
 // testing
 /* const newWord = new Word("cat");
 newWord.guessWord("a");

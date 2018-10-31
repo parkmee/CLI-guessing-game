@@ -1,0 +1,25 @@
+{
+  "name": "cli-guessing-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parkmee/CLI-guessing-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parkmee/CLI-guessing-game/issues"
+  },
+  "homepage": "https://github.com/parkmee/CLI-guessing-game#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "inquirer": "^6.2.0",
+    "request": "^2.88.0",
+    "url-parse": "^1.4.3"
+  }
+}

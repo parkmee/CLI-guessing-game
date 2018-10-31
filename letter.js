@@ -6,12 +6,10 @@ class Letter {
     }
     // function to return the underlying character if the letter has been guessed or a place holder otherwise
     showLetter() {
-        console.log(this.str, this.match);
+        //console.log(this.str, this.match);
         if (this.match) {
-            //console.log(this.str);
             return this.str;
         } else {
-            //console.log(" __ ");
             return " __ ";
         }
     }
@@ -24,7 +22,7 @@ class Letter {
     }
 }
 
-// export class
+// export class Letter
 module.exports = Letter;
 
 // testing
