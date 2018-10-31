@@ -13,7 +13,6 @@ const cheerio = require('cheerio');
 class RandomWord {
     constructor() {
         this.word = "";
-        this.definition = "";
         this.getRandomWord();
     }
     getRandomWord() {
@@ -25,8 +24,6 @@ class RandomWord {
             if(response.statusCode === 200) { // if OK, return random word from website
                 const $ = cheerio.load(body); // run cheerio to parse body to jquery
                 this.word = $("#random_word").text(); // store random word
-                this.definition = $("#random_word_definition").text(); // store definition of word
-                //console.log(`${this.word}: ${this.definition}`);
                 word = new Word(this.word);
                 selectedWord = $("#random_word").text();
                 definition = $("#random_word_definition").text();
@@ -84,35 +81,33 @@ const guessALetter = () => {
         ]).then(res => {
             letter = res.letterGuess.toLowerCase(); // store letter
 
-            if (letter >= "a" && letter <= "z") { // make sure selected key is a letter
+            if (letter.length > 1 || letter.length < 1) {
+                console.log("Guess one letter, please");
+            } else if (letter >= "a" && letter <= "z") { // make sure selected key is a letter
                 lettersUsed.push(letter); // store used letters in array
                 word.guessWord(letter); // run guessWord function to mark any correctly guessed letters
-                word.showWord(); // update guessed letters on terminal
                 string = ""; // reset string to empty
+
                 for (i in w) { // for each letter in the word
                     if (w[i].match) { // if the letter is matched
                         string += w[i].str; // concatenate value to string
                     }
                 }
                 console.log(`\nLetters used: ${lettersUsed.join(" ")}\n`); // display letters used
-                /* console.log(string);
-                console.log(selectedWord);
-                console.log(string.length); */
+                // if string length matches number of matched letters, decrement guesses - indicates no additional letters were guessed in this turn
+                if (string.length === matchedLetters) {
+                    guesses--;
+                } else {
+                    matchedLetters = string.length; // otherwise, update number of matched letters to string length
+                }
             } else {
-                console.log("Guess one letter"); // error message if value other than a - z is selected
-            }
-
-            // if string length matches number of matched letters, decrement guesses - indicates no additional letters were guessed in this turn
-            if (string.length === matchedLetters) {
-                guesses--;
-                console.log(`You have ${guesses} guess(es) left`);
-            } else {
-                matchedLetters = string.length; // otherwise, update number of matched letters to string length
+                console.log("Guess a letter"); // error message if value other than a - z is selected
             }
 
             // player loses if guesses run out
             if (guesses === 0) {
                 console.log(`You lose! The word was ${selectedWord}: ${definition}`);
+                console.log(`\n*******************************************\n`)
                 init();
                 return;
             }
@@ -120,9 +115,12 @@ const guessALetter = () => {
             // if concatenated string of guessed letters equals the selected random word, player wins
             if (string === selectedWord) {
                 console.log(`You win! The word was ${selectedWord}: ${definition}`);
+                console.log(`\n*******************************************\n`)
                 init();
                 return;
             } else {
+                word.showWord(); // update guessed letters on terminal
+                console.log(`You have ${guesses} guess(es) left`);
                 guessALetter(); // otherwise, prompt player for another guess
             }
         });
