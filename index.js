@@ -1,12 +1,15 @@
 // refer to word.js
 const Word = require("./word.js");
 let word = "";
+let selectedWord = "";
+let definition = "";
 
 // require npm packages
 const inquirer = require('inquirer');
 const request = require('request');
 const cheerio = require('cheerio');
 
+// class to select random word using webcrawler from www.randomword.com
 class RandomWord {
     constructor() {
         this.word = "";
@@ -23,22 +26,28 @@ class RandomWord {
                 const $ = cheerio.load(body); // run cheerio to parse body to jquery
                 this.word = $("#random_word").text(); // store random word
                 this.definition = $("#random_word_definition").text(); // store definition of word
-                console.log(`${this.word}: ${this.definition}`);
+                //console.log(`${this.word}: ${this.definition}`);
                 word = new Word(this.word);
+                selectedWord = $("#random_word").text();
+                definition = $("#random_word_definition").text();
             }
         })
     }
 }
 
-let guesses = 3;
-let matches = 0;
-let usedLetters = [];
-const randomWord = new RandomWord();
+// set global variables
+let string = "";
+let guesses = 0;
+let matchedLetters = 0;
 
+// run to start game from beginning
 function init() {
-    matches = 0;
-    guesses = 3;
-    usedLetters = [];
+    // selects new random word for guessing
+    const randomWord = new RandomWord();
+
+    string = "";
+    guesses = 9;
+    matchedLetters = 0;
     inquirer.prompt([
         {
             type: "confirm",
@@ -47,7 +56,7 @@ function init() {
         },
     ]).then(res => {
         if (res.playGame) {
-            console.log(word.wordArr);
+            //console.log(word.wordArr);
             word.showWord();
             guessALetter();
         } else {
@@ -55,9 +64,9 @@ function init() {
         }
     });
 }
-
 const guessALetter = () => {
-    let atLeastOneMatch = false;
+    const [...w] = word.wordArr;
+    let letter = "";
     if (guesses > 0) {
         inquirer.prompt([
             {
@@ -65,39 +74,43 @@ const guessALetter = () => {
                 name: "letterGuess"
             }
         ]).then(res => {
-            
+            letter = res.letterGuess.toLowerCase();
 
-
-            /* for (const i in word.wordArr) {
-                if (res.letterGuess === word.wordArr[i].str) {
-                    for (const j in usedLetters) {
-                        if (res.letterGuess.toLowerCase() === usedLetters[j])
-                    }
-                    atLeastOneMatch = true;
-                    matches++;
-                }
-            }
-            if (atLeastOneMatch) {
-                usedLetters.push(res.letterGuess);
-                console.log(usedLetters);
-                word.guessWord(res.letterGuess);
+            if (letter >= "a" && letter <= "z") {
+                word.guessWord(letter);
                 word.showWord();
-                if (matches === word.wordArr.length) {
-                    console.log(`You won! The definition of ${word.str} is "${word.definition}`);
-                    init();
-                } else {
-                    guessALetter();
+                string = "";
+                for (i in w) {
+                    if (w[i].match) {
+                        string += w[i].str;
+                    }
                 }
-            } else {
+                /* console.log(string);
+                console.log(selectedWord);
+                console.log(string.length); */
+            }
+
+            //console.log(`matched letters: ${matchedLetters}`);
+
+            if (string.length === matchedLetters) {
                 guesses--;
-                console.log("Wrong!");
-                if (guesses === 0) {
-                    console.log(`Sorry. You lost. The word was ${word.str}: ${word.definition}`);
-                    init();
-                } else {
-                    guessALetter();
-                }
-            } */
+                console.log(`You have ${guesses} guess(es) left`);
+            } else {
+                matchedLetters = string.length;
+            }
+
+            if (guesses === 0) {
+                console.log(`You lose! The word was ${selectedWord}: ${definition}`);
+                init();
+            }
+
+            if (string === selectedWord) {
+                console.log(`You win! The word was ${selectedWord}: ${definition}`);
+                init();
+            } else {
+                guessALetter();
+            }
+
         });
     }
 }

@@ -18,7 +18,7 @@ class Letter {
         if (userGuess === this.str) {
             return this.match = true; // update stored boolean value to true
         }
-        console.log("no match");
+        //console.log("no match");
     }
 }
 

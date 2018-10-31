@@ -24,7 +24,7 @@ class Word {
     }
     guessWord(userGuess) { // function that takes character as an argument and calls the guess function on each letter object
         for(let i in this.wordArr) {
-            console.log(this.wordArr[i].str);
+            //console.log(this.wordArr[i].str);
             this.wordArr[i].guessLetter(userGuess);
         }
     }
