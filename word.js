@@ -13,7 +13,7 @@ class Word {
             const newLetter = new letter(char.toLowerCase());
             this.wordArr.push(newLetter);
         }
-        console.log(this.wordArr);
+        //console.log(this.wordArr);
     }
     showWord() { // run showLetter function for each wordArr character to display as letters or blanks
         let wordView = [];
