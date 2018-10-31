@@ -9,7 +9,7 @@ const inquirer = require('inquirer');
 const request = require('request');
 const cheerio = require('cheerio');
 
-// class to select random word using webcrawler from www.randomword.com
+// class to select random word from www.randomword.com using webcrawler 
 class RandomWord {
     constructor() {
         this.word = "";
