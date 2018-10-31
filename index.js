@@ -73,6 +73,7 @@ function init() {
 // function for guessing letters of word
 const guessALetter = () => {
     const [...w] = word.wordArr;
+    console.log(selectedWord);
     let letter = ""; // local variable to store user's guess
     if (guesses > 0) {
         inquirer.prompt([ // prompt user for letter
@@ -101,8 +102,6 @@ const guessALetter = () => {
                 console.log("Guess one letter"); // error message if value other than a - z is selected
             }
 
-            //console.log(`matched letters: ${matchedLetters}`);
-
             // if string length matches number of matched letters, decrement guesses - indicates no additional letters were guessed in this turn
             if (string.length === matchedLetters) {
                 guesses--;
@@ -115,12 +114,14 @@ const guessALetter = () => {
             if (guesses === 0) {
                 console.log(`You lose! The word was ${selectedWord}: ${definition}`);
                 init();
+                return;
             }
 
             // if concatenated string of guessed letters equals the selected random word, player wins
             if (string === selectedWord) {
                 console.log(`You win! The word was ${selectedWord}: ${definition}`);
                 init();
+                return;
             } else {
                 guessALetter(); // otherwise, prompt player for another guess
             }
