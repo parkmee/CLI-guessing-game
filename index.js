@@ -70,7 +70,6 @@ function init() {
 // function for guessing letters of word
 const guessALetter = () => {
     const [...w] = word.wordArr;
-    console.log(selectedWord);
     let letter = ""; // local variable to store user's guess
     if (guesses > 0) {
         inquirer.prompt([ // prompt user for letter
@@ -120,7 +119,7 @@ const guessALetter = () => {
                 return;
             } else {
                 word.showWord(); // update guessed letters on terminal
-                console.log(`You have ${guesses} guess(es) left`);
+                console.log(`\nYou have ${guesses} guess(es) left`);
                 guessALetter(); // otherwise, prompt player for another guess
             }
         });
