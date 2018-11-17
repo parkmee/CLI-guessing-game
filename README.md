@@ -3,7 +3,7 @@ This application uses a webcrawler to retrieve a random word from www.randomword
 
 ## Getting Started
 
-Clone this repository to play the game on your command line. Enter "node index.js" to launch the game. After entering "Y" to start a game, guess letters one at a time to guess the word.
+Clone this repository to play the game on your command line. Enter "npm install" to install node packages required to run the program. Enter "node index.js" to launch the game. After entering "Y" to start a game, guess letters one at a time to guess the word.
 
 ## Built With
 
