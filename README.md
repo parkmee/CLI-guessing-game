@@ -17,7 +17,7 @@ Clone this repository to play the game on your command line. Enter "npm install"
 
 ## Links
 
-https://github.com/parkmee/CLI-guessing-game
+[https://github.com/parkmee/CLI-guessing-game](https://github.com/parkmee/CLI-guessing-game)
 
 ## Authors
 
